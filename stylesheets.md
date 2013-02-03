@@ -65,7 +65,7 @@ Properties with shorthand methods
 
 Use the explicit property when you need to set only one value:
 
-```sass
+```scss
 
 margin-left: 4px;
 
@@ -73,7 +73,7 @@ margin-left: 4px;
 
 Use SASS' nested form when you need to set up to 3 values:
 
-```sass
+```scss
 
 margin: {
   right: 2px;
@@ -84,7 +84,7 @@ margin: {
 
 Use the shorthand method when you're setting all values:
 
-```sass
+```scss
 
 margin: 1px 2px 3px 4px;
 
