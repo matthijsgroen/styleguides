@@ -27,8 +27,8 @@ To easily find a good sentence for the summary, imagine saying: 'This commit wil
 Delivering features
 ===================
 
- 1. git checkout develop
- 2. git merge feature-branch --no-ff
+ 1. `git checkout develop`
+ 2. `git merge feature-branch --no-ff`
 
 Set as commit message:
 
@@ -55,12 +55,19 @@ Release notes overview
 
 To show the feature merges to create release notes:
 
-    git log --merges
+```sh
+
+git log --merges
+
+```
 
 To mix the merge and squash commits in one overview, you can search for
 terms that are mandatory in a feature merge commit
 
-    git log --grep=pivotal
+```sh
 
+git log --grep=pivotal
+
+```
 
 

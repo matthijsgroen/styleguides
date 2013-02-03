@@ -17,15 +17,15 @@ Old style:
 
 ```coffeescript
 
-    describe 'feature', ->
+describe 'feature', ->
 
-      sharedVar = null # make the var accessible within the describe scope to share in beforeEach and tests
+  sharedVar = null # make the var accessible within the describe scope to share in beforeEach and tests
 
-      beforeEach ->
-        sharedVar = 'value'
+  beforeEach ->
+    sharedVar = 'value'
 
-      it 'does awesomeness', ->
-        sharedVar.should.equal 'value'
+  it 'does awesomeness', ->
+    sharedVar.should.equal 'value'
 
 ```
 
@@ -33,16 +33,16 @@ Our style:
 
 ```coffeescript
 
-    describe 'feature', ->
+describe 'feature', ->
 
-      beforeEach ->
-        @sharedVar = 'value'
+  beforeEach ->
+    @sharedVar = 'value'
 
-      afterEach ->
-        @sharedVar = null
+  afterEach ->
+    @sharedVar = null
 
-      it 'does awesomeness', ->
-        @sharedVar.should.equal 'value'
+  it 'does awesomeness', ->
+    @sharedVar.should.equal 'value'
 
 ```
 
@@ -64,10 +64,10 @@ the promise fulfills, and will fail if the promise rejects
 
 ```coffeescript
 
-    it 'adds fetched product to the collection', ->
-      delay().then => @server.respond()
-      expect(=> @collection.length).to.change.by(1).when =>
-        @collection.fetchProduct @productId
+it 'adds fetched product to the collection', ->
+  delay().then => @server.respond()
+  expect(=> @collection.length).to.change.by(1).when =>
+    @collection.fetchProduct @productId
 
 ```
 
@@ -81,17 +81,17 @@ methods.
 
 ```coffeescript
 
-    beforeEach ->
-      @model = new Backbone.Model
-      sinon.stub(@model, 'methodName').returns(valueForHappyFlow)
+beforeEach ->
+  @model = new Backbone.Model
+  sinon.stub(@model, 'methodName').returns(valueForHappyFlow)
 
-    afterEach ->
-      @model.methodName.restore()
-      @mode = null
+afterEach ->
+  @model.methodName.restore()
+  @mode = null
 
-    it 'calls methodName', ->
-      @model.doSomething()
-      @model.methodName.should.have.been.calledWith(testarg)
+it 'calls methodName', ->
+  @model.doSomething()
+  @model.methodName.should.have.been.calledWith(testarg)
 
 ```
 

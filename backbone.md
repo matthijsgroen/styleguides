@@ -5,12 +5,20 @@ Each method body should start on a separate line.
 
 Bad:
 
-    hello: -> 'stuff'
+```coffeescript
+
+hello: -> 'stuff'
+
+```
 
 Good:
 
-    hello: ->
-      'stuff'
+```coffeescript
+
+hello: ->
+  'stuff'
+
+```
 
 Methods in a backbone class have specific ordering. Backbone (framework)
 related methods should be at the top, implementation specific methods at
@@ -28,26 +36,33 @@ underscores.
 
 Bad:
 
-    class MyView extends Backbone.Model
-      renderItem: ->
-      tagName: 'ul'
-      defaults:
-      updateBackground: ->
-      events:
-      render: ->
-      initialize: ->
+```coffeescript
 
+class MyView extends Backbone.Model
+  renderItem: ->
+  tagName: 'ul'
+  defaults:
+  updateBackground: ->
+  events:
+  render: ->
+  initialize: ->
+
+```
 
 Good:
 
-    class MyView extends Backbone.Model
-      tagName: 'ul'
-      defaults:
-      events:
-      initialize: ->
-      render: ->
-      renderItem: ->
-      updateBackground: ->
+```coffeescript
+
+class MyView extends Backbone.Model
+  tagName: 'ul'
+  defaults:
+  events:
+  initialize: ->
+  render: ->
+  renderItem: ->
+  updateBackground: ->
+
+```
 
 Handling events
 ---------------
@@ -65,10 +80,10 @@ Bad:
 
 ```coffeescript
 
-    initialize: ->
-      @model.on 'change', (model, change) =>
-        @$('.notify').html @template(change)
-        @$('.notify').addClass 'highlight'
+initialize: ->
+  @model.on 'change', (model, change) =>
+    @$('.notify').html @template(change)
+    @$('.notify').addClass 'highlight'
 
 ```
 
@@ -76,12 +91,12 @@ Good:
 
 ```coffeescript
 
-    initialize: ->
-      @model.on 'change', @notifyUserOfChange, this
+initialize: ->
+  @model.on 'change', @notifyUserOfChange, this
 
-    notifyUserOfChange: (model, change) ->
-      @$('.notify').html @template(change)
-      @$('.notify').addClass 'highlight'
+notifyUserOfChange: (model, change) ->
+  @$('.notify').html @template(change)
+  @$('.notify').addClass 'highlight'
 
 ```
 
@@ -101,12 +116,12 @@ The example code looks like this:
 
 ```coffeescript
 
-    dispose: ->
-      @subView.dispose()
-      @model.off null, null, this
-      @model.collection?.off null, null, this
-      @unbind() # unbind all javascript events on our view
-      @remove() # remove our elements from the DOM
+dispose: ->
+  @subView.dispose()
+  @model.off null, null, this
+  @model.collection?.off null, null, this
+  @unbind() # unbind all javascript events on our view
+  @remove() # remove our elements from the DOM
 
 ```
 
@@ -125,9 +140,9 @@ We take the following approach for this:
 
 ```coffeescript
 
-    render: ->
-      @$el.html @template this
-      this
+render: ->
+  @$el.html @template this
+  this
 
 ```
 
@@ -136,9 +151,9 @@ in the template we can use them directly:
 
 ```haml
 
-    %menu.toolbar
-      %li.user-info= @userDisplayName()
-      %li.basket= @basketTotal()
+%menu.toolbar
+  %li.user-info= @userDisplayName()
+  %li.basket= @basketTotal()
 
 ```
 
@@ -149,18 +164,18 @@ So the whole view could look like this:
 
 ```coffeescript
 
-    class ToolbarView extends Backbone.View
-      template: JST['template_name']
+class ToolbarView extends Backbone.View
+  template: JST['template_name']
 
-      render: ->
-        @$el.html @template this
-        this
+  render: ->
+    @$el.html @template this
+    this
 
-      userDisplayName: ->
-        @user.get('displayName') || 'Not logged in'
+  userDisplayName: ->
+    @user.get('displayName') || 'Not logged in'
 
-      basketTotal: ->
-        App.Helpers.formatCurrency(@basket.totalAmount())
+  basketTotal: ->
+    App.Helpers.formatCurrency(@basket.totalAmount())
 
 ```
 
