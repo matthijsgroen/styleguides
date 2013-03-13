@@ -71,7 +71,7 @@ it 'adds fetched product to the collection', ->
 
 ```
 
-Testing method invokations
+Testing method invocations
 --------------------------
 
 We use [sinon-chai][] to spy and stub on method calls.
