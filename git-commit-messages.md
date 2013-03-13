@@ -28,7 +28,8 @@ Delivering features
 ===================
 
  1. `git checkout develop`
- 2. `git merge feature-branch --no-ff`
+ 2. `git merge feature-branch --no-ff --no-commit`
+ 3. `git commit`
 
 Set as commit message:
 
@@ -57,7 +58,7 @@ To show the feature merges to create release notes:
 
 ```sh
 
-git log --merges
+git log --merges --first-parent
 
 ```
 
