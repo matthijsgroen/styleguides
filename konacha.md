@@ -104,7 +104,102 @@ Pro's for our style:
   + you can do multiple specific assertions in different points in time
 
 
+Testing class instantiation
+---------------------------
+
+We use `.calledWithNew` to test class instantiation. We will stub the
+constructor and return a previously instantiated version where we can
+apply further stubs and spies.
+
+```coffeescript
+
+beforeEach ->
+  @instance = new Backbone.View
+  sinon.stub(Backbone, 'View').returns @instance
+
+  # you can now stub methods on the instance
+  sinon.stub @instance, 'render'
+
+afterEach ->
+  @instance.render.restore()
+  @instance = null
+  Backbone.View.restore()
+
+it 'instantiates a new view', ->
+  Backbone.View.should.have.been.calledWithNew
+
+  # You need to test constructor arguments seperately
+  Backbone.View.should.have.been.calledWith
+    model: @model
+
+it 'renders the new view', ->
+  @instance.render.should.have.been.called
+
+```
+
+Using shared behavior
+---------------------
+
+Sometimes you expect the same behaviour for different parts of your
+application. To avoid duplication of tests, you can run the same tests
+on the different parts of the system.
+
+See [Shared behaviour in mocha][shared-behaviours-mocha] for the general
+approach.
+
+### Writing the shared behaviour
+
+place a file in `spec/javascripts/shared` use a filename like:
+"behave_like_xxxx_spec" to indicate a general behaviour.
+
+In this file you have to define a method that will execute the shared
+tests:
+
+```coffeescript
+
+# use the @ sign to bind this shared example suite to the outer context
+# else this variable is not available in the test that wants to execute it.
+
+@shouldBehaveLikeSomething = (contextCallback) ->
+
+  describe 'behaves like something', ->
+
+    it 'is below 10', ->
+      # use .call(this) to run the supplied callback in the context of our current test
+      contextCallback.call(this).should.be.below 10
+
+    it 'is not 4', ->
+      contextCallback.call(this).should.not.equal 4
+
+```
+
+### Applying a shared behaviour
+
+require the shared behaviour in your spec:
+
+    #= require shared/behave_like_something_spec
+
+to apply this test to your current context, you can now use:
+
+```coffeescript
+
+describe 'number 5', ->
+
+  beforeEach ->
+    @number = 5
+
+  shouldBehaveLikeSomething -> @number
+
+describe 'number 7', ->
+
+  shouldBehaveLikeSomething -> 7
+
+```
+
+The test suite should run 4 examples in this case.
+
 [mocha-as-promised]: https://github.com/domenic/mocha-as-promised
 [sinon-chai]: https://github.com/domenic/sinon-chai
+[shared-behaviours-mocha]: https://github.com/visionmedia/mocha/wiki/Shared-Behaviours
 
 
