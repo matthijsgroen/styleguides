@@ -84,6 +84,8 @@ initialize: ->
   @model.on 'change', (model, change) =>
     @$('.notify').html @template(change)
     @$('.notify').addClass 'highlight'
+  @on 'event', (event) =>
+    # eventHandling
 
 ```
 
@@ -92,7 +94,8 @@ Good:
 ```coffeescript
 
 initialize: ->
-  @model.on 'change', @notifyUserOfChange, this
+  @listenTo @model, 'change;, @notifyUserOfChange
+  @on 'event', @handleEvent
 
 notifyUserOfChange: (model, change) ->
   @$('.notify').html @template(change)
@@ -118,10 +121,20 @@ The example code looks like this:
 
 dispose: ->
   @subView.dispose()
-  @model.off null, null, this
-  @model.collection?.off null, null, this
   @unbind() # unbind all javascript events on our view
   @remove() # remove our elements from the DOM
+
+```
+
+Update: Since Backbone 1.0.0 has the `listenTo` construct, the
+`remove()` method will call `stopListening()` which will unbind all
+dependencies to other objects. So these kinds of statements should no
+longer be necessary when `listenTo` is properly used:
+
+```coffeescript
+
+@model.off null, null, this
+@model.collection?.off null, null, this
 
 ```
 
@@ -163,6 +176,7 @@ A benefit of this approach is that this can also be unit tested.
 So the whole view could look like this:
 
 ```coffeescript
+#= require backbone/templates/template_name
 
 class ToolbarView extends Backbone.View
   template: JST['template_name']
