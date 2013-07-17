@@ -6,7 +6,7 @@ Cucumber Scenario's
 * Scenario titles should be written in the same format as commit
 messages
 * Feature descriptions should read like a userstory
-* Feature title should be a short describtion in the same format as
+* Feature title should be a short description in the same format as
   commit
 
 ```gherkin
